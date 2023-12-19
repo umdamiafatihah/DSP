@@ -1,0 +1,44 @@
+Class Label,Number of Images
+Dangerous curve left,210
+Go straight or left,210
+Speed limit (20km/h),210
+End no passing veh > 3.5 tons,240
+End of no passing,240
+End speed + passing limits,240
+Pedestrians,240
+Bicycles crossing,270
+Road narrows on the right,270
+Keep left,300
+Double curve,330
+Dangerous curve right,360
+Roundabout mandatory,360
+Bumpy road,390
+Go straight or right,390
+End of speed limit (80km/h),420
+Turn left ahead,420
+Veh > 3.5 tons prohibited,420
+Beware of ice/snow,450
+Slippery road,510
+Children crossing,540
+Traffic signals,600
+No vehicles,630
+Turn right ahead,689
+Stop,780
+Wild animals crossing,780
+No entry,1110
+Ahead only,1200
+General caution,1200
+Right-of-way at intersection,1320
+Speed limit (120km/h),1410
+Speed limit (60km/h),1410
+Speed limit (100km/h),1440
+No passing,1470
+Road work,1500
+Speed limit (80km/h),1860
+Speed limit (70km/h),1980
+No passing veh over 3.5 tons,2010
+Keep right,2070
+Priority road,2100
+Yield,2160
+Speed limit (30km/h),2220
+Speed limit (50km/h),2250
