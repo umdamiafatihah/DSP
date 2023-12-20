@@ -26,7 +26,7 @@ def main():
         """,
         unsafe_allow_html=True,
     )
-    st.title("Overview")
+    st.title("Welcome to AdversaSign")
     st.subheader("Introduction")
     normal_text("Traffic signs are essential tools that provide crucial information and instructions to drivers. Despite advancements in navigation technology, such as Google Maps and Waze, the reliance on physical traffic signs persists due to their critical role in road safety. This project aims to enhance road safety by focusing on traffic sign recognition technology, a key component of Advanced Driver Assistance Systems (ADAS) employed in autonomous vehicles. Traffic sign recognition involves the ability to identify and interpret various traffic signs using camera-captured images, a vital function in autonomous driving systems. Deep learning models, renowned for their ability to learn complex patterns from massive datasets, are widely used in traffic sign recognition. However, they are vulnerable to adversarial attacks, where slight, often imperceptible perturbations in input images can lead to incorrect predictions. This vulnerability poses a significant challenge to the reliability of these systems.", style='text-align: justify')
     st.subheader("Problem Statement")
