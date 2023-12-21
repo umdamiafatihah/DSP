@@ -1,5 +1,5 @@
 import streamlit as st
-from widgets.general import normal_text, ordered_list
+from widgets.general import title, normal_text, ordered_list
 from util.custom_theme import load_css
 
 # Main app logic
@@ -9,7 +9,7 @@ def main():
         page_icon="🚗",
     )
     load_css()
-    st.title("Welcome to AdversaSign")
+    title("Welcome to AdversaSign", "AdversaSign", color="yellow", additional_style="font-weight: bold;")
     st.subheader("Introduction")
     normal_text("Traffic signs are essential tools that provide crucial information and instructions to drivers. Despite advancements in navigation technology, such as Google Maps and Waze, the reliance on physical traffic signs persists due to their critical role in road safety. This project aims to enhance road safety by focusing on traffic sign recognition technology, a key component of Advanced Driver Assistance Systems (ADAS) employed in autonomous vehicles. Traffic sign recognition involves the ability to identify and interpret various traffic signs using camera-captured images, a vital function in autonomous driving systems. Deep learning models, renowned for their ability to learn complex patterns from massive datasets, are widely used in traffic sign recognition. However, they are vulnerable to adversarial attacks, where slight, often imperceptible perturbations in input images can lead to incorrect predictions. This vulnerability poses a significant challenge to the reliability of these systems.", style='text-align: justify')
     st.subheader("Problem Statement")
@@ -20,16 +20,6 @@ def main():
     st.subheader("User Guide")
     user_guide = ["**Overview Page:** Get introduced to the app and its purpose, understand the fundamentals of traffic sign recognition, and learn about the significance of addressing adversarial attacks in deep learning models.", "**EDA (Exploratory Data Analysis) Page:**    Explore data visualizations related to traffic signs, providing insights into the dataset used in our models.", "**Prediction Page:** This is where you can interact with the model. Upload traffic sign images, see real-time predictions, and test the model's performance against adversarial attacks."]
     ordered_list(user_guide)
-    # st.write("**1. Overview Page:** Get introduced to the app and its purpose, understand the fundamentals of traffic sign recognition, and learn about the significance of addressing adversarial attacks in deep learning models.", "**EDA (Exploratory Data Analysis) Page:**    Explore data visualizations related to traffic signs, providing insights into the dataset used in our models.")
-    #
-    # st.write("**2. EDA (Exploratory Data Analysis) Page:**    Explore data visualizations related to traffic signs, providing insights into the dataset used in our models.")
-    #
-    # st.markdown("**3. Prediction Page:** This is where you can interact with the model. Upload traffic sign images, see real-time predictions, and test the model's performance against adversarial attacks.")
-    # st.markdown("""
-    # - Click on 'Browse files' to upload your traffic sign image.
-    # - View the standard model's prediction and then generate an adversarial version of the image.
-    # - Compare predictions between the standard and robust models to evaluate their performance.
-    # """)
 
 if __name__ == "__main__":
     main()
