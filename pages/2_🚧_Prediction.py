@@ -7,24 +7,6 @@ from widgets.general import normal_text
 from util.custom_theme import load_css
 from PIL import Image
 
-st.markdown(
-        """
-        <style>
-           [data-testid="stSidebarNav"]::before {
-            content: "Traffic Sign Recognition Against Adversarial Attack";
-            display: block;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            position: absolute;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
 load_css()
 
 sign_names = {
@@ -77,26 +59,41 @@ st.title("Traffic Sign Recognition Against Adversarial Attack")
 plotly_placeholder = st.empty()
 
 def create_plotly_figure():
-    nb_correct_original = np.load('data/nb_correct_original.npy')
-    nb_correct_robust_madry = np.load('data/nb_correct_robust_madry_3.npy')
-    nb_correct_robust_trades = np.load('data/nb_correct_robust_trades_3.npy')
-    nb_correct_robust_awp = np.load('data/nb_correct_robust_awp_4.npy')
+    # Load data for ResNet18
+    nb_correct_original_resnet = np.load('data/nb_correct_original.npy')
+    nb_correct_robust_madry_resnet = np.load('data/nb_correct_robust_madry_3.npy')
+    nb_correct_robust_trades_resnet = np.load('data/nb_correct_robust_trades_3.npy')
+    nb_correct_robust_awp_resnet = np.load('data/nb_correct_robust_awp_4.npy')
+
+    # Load data for WideResNet-34-10
+    nb_correct_original_wideresnet = np.load('data/nb_correct_original_wideresnet.npy')
+    nb_correct_robust_madry_wideresnet = np.load('data/nb_correct_robust_wideresnet_madry_1.npy')
+    nb_correct_robust_trades_wideresnet = np.load('data/nb_correct_robust_wideresnet_trades_1.npy')
+    nb_correct_robust_awp_wideresnet = np.load('data/nb_correct_robust_wideresnet_awp_1.npy')
 
     # Generate the epsilon range which should be the same as used when saving the arrays
     eps_range = np.linspace(0, 1, 256)  # make sure this range is correct
 
     # Create a Plotly graph
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_original, mode='lines', name='Standard'))
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_madry, mode='lines', name='Madry'))
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_trades, mode='lines', name='TRADES'))
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_awp, mode='lines', name='AWP'))
+
+    # Add traces for ResNet18 (solid lines)
+    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_original_resnet, mode='lines', name='Standard - ResNet18', line=dict(dash='solid', color='#FF5722')))
+    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_madry_resnet, mode='lines', name='Madry - ResNet18', line=dict(dash='solid', color='#8BC34A')))
+    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_trades_resnet, mode='lines', name='TRADES - ResNet18', line=dict(dash='solid', color='#FFEB3B')))
+    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_awp_resnet, mode='lines', name='AWP - ResNet18', line=dict(dash='solid', color='#FF9800')))
+
+    # Add traces for WideResNet-34-10 (dotted lines)
+    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_original_wideresnet, mode='lines', name='Standard - WideResNet-34-10', line=dict(dash='dot', color='#03A9F4')))
+    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_madry_wideresnet, mode='lines', name='Madry - WideResNet-34-10', line=dict(dash='dot', color='#3F51B5')))
+    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_trades_wideresnet, mode='lines', name='TRADES - WideResNet-34-10', line=dict(dash='dot', color='#E91E63')))
+    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_awp_wideresnet, mode='lines', name='AWP - WideResNet-34-10', line=dict(dash='dot', color='#BDBDBD')))
 
     # Update the layout
     fig.update_layout(
         title='Model Comparison',
         xaxis_title='Perturbation Size (eps)',
-        yaxis_title='Classification Accuracy',
+        yaxis_title='Accuracy',
         legend_title='Defence Method'
     )
     return fig
@@ -109,6 +106,12 @@ plotly_figure = create_plotly_figure()
 plotly_placeholder.plotly_chart(plotly_figure)
 
 y_test = load_test_data()
+
+# Model selection dropdown
+selected_model = st.selectbox(
+    'Select model:',
+    ('ResNet18', 'WideResNet-34-10')
+)
 
 # Add a slider for selecting epsilon value
 epsilon = st.slider('Select epsilon value for the adversarial attack:', min_value=0.000, max_value=1.000, value=0.03, step=0.001, format="%f")
@@ -147,7 +150,7 @@ if uploaded_file is not None:
         st.image(image, caption='Original Image', use_column_width=True)
 
         if st.button('Predict (Standard Model)'):
-            label, confidence = predict(uploaded_file)
+            label, confidence = predict(uploaded_file, selected_model)
             st.session_state['standard_prediction'] = (label, confidence * 100)
 
         if 'standard_prediction' in st.session_state:
@@ -162,7 +165,7 @@ if uploaded_file is not None:
             normal_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
 
         if st.button('Generate Adversarial Image'):
-            adversarial_image = generate_adversarial_example(image, 'standard', epsilon)
+            adversarial_image = generate_adversarial_example(image, selected_model, 'standard', epsilon)
             st.session_state['adv_img_generated'] = True
             st.session_state['adversarial_image'] = adversarial_image
 
@@ -172,7 +175,7 @@ if uploaded_file is not None:
 
             if st.button('Predict with Standard Model'):
                 adversarial_image = st.session_state['adversarial_image']
-                label, confidence = predict_adv(adversarial_image, 'standard')
+                label, confidence = predict_adv(adversarial_image, selected_model, 'standard')
                 st.session_state['adv_standard_prediction'] = (label, confidence * 100)
 
             if 'adv_standard_prediction' in st.session_state:
@@ -187,8 +190,8 @@ if uploaded_file is not None:
                 normal_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
 
             if st.button('Predict with Madry'):
-                adversarial_image_1 = generate_adversarial_example(image, 'madry', epsilon)
-                label, confidence = predict_adv(adversarial_image_1, 'madry')
+                adversarial_image_1 = generate_adversarial_example(image, selected_model, 'madry', epsilon)
+                label, confidence = predict_adv(adversarial_image_1, selected_model, 'madry')
                 st.session_state['robust_1_prediction'] = (label, confidence * 100)
 
             if 'robust_1_prediction' in st.session_state:
@@ -203,8 +206,8 @@ if uploaded_file is not None:
                 normal_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
 
             if st.button('Predict with TRADES'):
-                adversarial_image_2 = generate_adversarial_example(image, 'trades', epsilon)
-                label, confidence = predict_adv(adversarial_image_2, 'trades')
+                adversarial_image_2 = generate_adversarial_example(image, selected_model, 'trades', epsilon)
+                label, confidence = predict_adv(adversarial_image_2, selected_model, 'trades')
                 st.session_state['robust_2_prediction'] = (label, confidence * 100)
 
             if 'robust_2_prediction' in st.session_state:
@@ -219,8 +222,8 @@ if uploaded_file is not None:
                 normal_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
 
             if st.button('Predict with AWP'):
-                adversarial_image_3 = generate_adversarial_example(image, 'awp', epsilon)
-                label, confidence = predict_adv(adversarial_image_3, 'awp')
+                adversarial_image_3 = generate_adversarial_example(image, selected_model, 'awp', epsilon)
+                label, confidence = predict_adv(adversarial_image_3, selected_model, 'awp')
                 st.session_state['robust_3_prediction'] = (label, confidence * 100)
 
             if 'robust_3_prediction' in st.session_state:

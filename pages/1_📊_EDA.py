@@ -9,23 +9,6 @@ from util.custom_theme import load_css
 import os
 
 load_css()
-st.markdown(
-        """
-        <style>
-           [data-testid="stSidebarNav"]::before {
-            content: "Traffic Sign Recognition Against Adversarial Attack";
-            display: block;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            position: absolute;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
 st.title("Exploratory Data Analysis (EDA)")
 normal_text("This section provides a detailed examination of the dataset, featuring the distribution of classes, an analysis of image size variability, and a visual gallery of sample images.", style="text-align:justify")
 st.subheader("Class Distribution")
