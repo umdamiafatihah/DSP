@@ -20,6 +20,11 @@ def ordered_list(items):
     concat = "".join(list_items)
     container.markdown(f"<div class=text><ol>{concat}</ol><div>", unsafe_allow_html=True)
 
+def title(content: str, highlight: str, color: str = "yellow", additional_style: str = ""):
+    highlighted_content = content.replace(highlight, f"<span style='color: {color};'>{highlight}</span>")
+    container = st.container()
+    container.markdown(f"<h1 style='{additional_style}'>{highlighted_content}</h1>", unsafe_allow_html=True)
+
 def subtitle(content:str, size=2, style=""):
     container = st.container()
     container.markdown(f"<div class='text h{size}'><span>{content}<span></div>", unsafe_allow_html=True)
