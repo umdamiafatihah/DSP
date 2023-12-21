@@ -1,10 +1,9 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 import plotly.express as px
 import numpy as np
 from PIL import Image
-from widgets.general import normal_text, ordered_list
+from widgets.general import normal_text
 from util.custom_theme import load_css
 import os
 
