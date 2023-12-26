@@ -137,4 +137,4 @@ for i in range(0, len(images), 3):
             # Display each image with the same width
             st.image(img, width=fixed_width)
             # Use Markdown with HTML to display the caption in white
-            st.markdown(f"<p style='color:white; font-size:14px'>{caption}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='text-align: center; color: white; font-size: 14px;'>{caption}</p>", unsafe_allow_html=True)
