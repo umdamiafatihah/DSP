@@ -4,4 +4,4 @@ torchvision
 matplotlib
 plotly
 adversarial-robustness-toolbox
-streamlit_lottie
+streamlit-lottie
