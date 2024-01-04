@@ -56,54 +56,54 @@ sign_names = {
 
 st.title("Traffic Sign Recognition Against Adversarial Attack")
 
-plotly_placeholder = st.empty()
-
-def create_plotly_figure():
-    # Load data for ResNet18
-    nb_correct_original_resnet = np.load('data/nb_correct_original.npy')
-    nb_correct_robust_madry_resnet = np.load('data/nb_correct_robust_madry_3.npy')
-    nb_correct_robust_trades_resnet = np.load('data/nb_correct_robust_trades_3.npy')
-    nb_correct_robust_awp_resnet = np.load('data/nb_correct_robust_awp_4.npy')
-
-    # Load data for WideResNet-34-10
-    nb_correct_original_wideresnet = np.load('data/nb_correct_original_wideresnet.npy')
-    nb_correct_robust_madry_wideresnet = np.load('data/nb_correct_robust_wideresnet_madry_1.npy')
-    nb_correct_robust_trades_wideresnet = np.load('data/nb_correct_robust_wideresnet_trades_1.npy')
-    nb_correct_robust_awp_wideresnet = np.load('data/nb_correct_robust_wideresnet_awp_1.npy')
-
-    # Generate the epsilon range which should be the same as used when saving the arrays
-    eps_range = np.linspace(0, 1, 256)  # make sure this range is correct
-
-    # Create a Plotly graph
-    fig = go.Figure()
-
-    # Add traces for ResNet18 (solid lines)
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_original_resnet, mode='lines', name='Standard - ResNet18', line=dict(dash='solid', color='#FF5722')))
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_madry_resnet, mode='lines', name='Madry - ResNet18', line=dict(dash='solid', color='#8BC34A')))
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_trades_resnet, mode='lines', name='TRADES - ResNet18', line=dict(dash='solid', color='#FFEB3B')))
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_awp_resnet, mode='lines', name='AWP - ResNet18', line=dict(dash='solid', color='#FF9800')))
-
-    # Add traces for WideResNet-34-10 (dotted lines)
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_original_wideresnet, mode='lines', name='Standard - WideResNet-34-10', line=dict(dash='dot', color='#03A9F4')))
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_madry_wideresnet, mode='lines', name='Madry - WideResNet-34-10', line=dict(dash='dot', color='#3F51B5')))
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_trades_wideresnet, mode='lines', name='TRADES - WideResNet-34-10', line=dict(dash='dot', color='#E91E63')))
-    fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_awp_wideresnet, mode='lines', name='AWP - WideResNet-34-10', line=dict(dash='dot', color='#BDBDBD')))
-
-    # Update the layout
-    fig.update_layout(
-        title='Model Comparison',
-        xaxis_title='Perturbation Size (eps)',
-        yaxis_title='Accuracy',
-        legend_title='Defence Method'
-    )
-    return fig
+# plotly_placeholder = st.empty()
+#
+# def create_plotly_figure():
+#     # Load data for ResNet18
+#     nb_correct_original_resnet = np.load('data/nb_correct_original.npy')
+#     nb_correct_robust_madry_resnet = np.load('data/nb_correct_robust_madry_3.npy')
+#     nb_correct_robust_trades_resnet = np.load('data/nb_correct_robust_trades_3.npy')
+#     nb_correct_robust_awp_resnet = np.load('data/nb_correct_robust_awp_4.npy')
+#
+#     # Load data for WideResNet-34-10
+#     nb_correct_original_wideresnet = np.load('data/nb_correct_original_wideresnet.npy')
+#     nb_correct_robust_madry_wideresnet = np.load('data/nb_correct_robust_wideresnet_madry_1.npy')
+#     nb_correct_robust_trades_wideresnet = np.load('data/nb_correct_robust_wideresnet_trades_1.npy')
+#     nb_correct_robust_awp_wideresnet = np.load('data/nb_correct_robust_wideresnet_awp_1.npy')
+#
+#     # Generate the epsilon range which should be the same as used when saving the arrays
+#     eps_range = np.linspace(0, 1, 256)  # make sure this range is correct
+#
+#     # Create a Plotly graph
+#     fig = go.Figure()
+#
+#     # Add traces for ResNet18 (solid lines)
+#     fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_original_resnet, mode='lines', name='Standard - ResNet18', line=dict(dash='solid', color='#FF5722')))
+#     fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_madry_resnet, mode='lines', name='Madry - ResNet18', line=dict(dash='solid', color='#8BC34A')))
+#     fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_trades_resnet, mode='lines', name='TRADES - ResNet18', line=dict(dash='solid', color='#FFEB3B')))
+#     fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_awp_resnet, mode='lines', name='AWP - ResNet18', line=dict(dash='solid', color='#FF9800')))
+#
+#     # Add traces for WideResNet-34-10 (dotted lines)
+#     fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_original_wideresnet, mode='lines', name='Standard - WideResNet-34-10', line=dict(dash='dot', color='#03A9F4')))
+#     fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_madry_wideresnet, mode='lines', name='Madry - WideResNet-34-10', line=dict(dash='dot', color='#3F51B5')))
+#     fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_trades_wideresnet, mode='lines', name='TRADES - WideResNet-34-10', line=dict(dash='dot', color='#E91E63')))
+#     fig.add_trace(go.Scatter(x=eps_range, y=nb_correct_robust_awp_wideresnet, mode='lines', name='AWP - WideResNet-34-10', line=dict(dash='dot', color='#BDBDBD')))
+#
+#     # Update the layout
+#     fig.update_layout(
+#         title='Model Comparison',
+#         xaxis_title='Perturbation Size (eps)',
+#         yaxis_title='Accuracy',
+#         legend_title='Defence Method'
+#     )
+#     return fig
 
 def load_test_data():
     y_test = pd.read_csv('data/Test.csv')
     return y_test
 
-plotly_figure = create_plotly_figure()
-plotly_placeholder.plotly_chart(plotly_figure)
+# plotly_figure = create_plotly_figure()
+# plotly_placeholder.plotly_chart(plotly_figure)
 
 y_test = load_test_data()
 
