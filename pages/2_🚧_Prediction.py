@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objs as go
 from classify import generate_adversarial_example, predict, predict_adv
-from widgets.general import normal_text
+from widgets.general import normal_text, output_text
 from util.custom_theme import load_css
 from PIL import Image
 
@@ -161,8 +161,8 @@ if uploaded_file is not None:
 
             # Set the color based on correctness
             color = "#39FF14" if is_correct else "red"
-            normal_text(f"**Prediction:** {name}", style=f"color: {color};")
-            normal_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
+            output_text(f"**Prediction:** {name}", style=f"color: {color};")
+            output_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
 
         if st.button('Generate Adversarial Image'):
             adversarial_image = generate_adversarial_example(image, selected_model, 'standard', epsilon)
@@ -186,8 +186,8 @@ if uploaded_file is not None:
 
                 # Set the color based on correctness
                 color = "#39FF14" if is_correct else "red"
-                normal_text(f"**Prediction:** {name}", style=f"color: {color};")
-                normal_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
+                output_text(f"**Prediction:** {name}", style=f"color: {color};")
+                output_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
 
             if st.button('Predict with Madry'):
                 adversarial_image_1 = generate_adversarial_example(image, selected_model, 'madry', epsilon)
@@ -202,8 +202,8 @@ if uploaded_file is not None:
 
                 # Set the color based on correctness
                 color = "#39FF14" if is_correct else "red"
-                normal_text(f"**Prediction:** {name}", style=f"color: {color};")
-                normal_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
+                output_text(f"**Prediction:** {name}", style=f"color: {color};")
+                output_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
 
             if st.button('Predict with TRADES'):
                 adversarial_image_2 = generate_adversarial_example(image, selected_model, 'trades', epsilon)
@@ -218,8 +218,8 @@ if uploaded_file is not None:
 
                 # Set the color based on correctness
                 color = "#39FF14" if is_correct else "red"
-                normal_text(f"**Prediction:** {name}", style=f"color: {color};")
-                normal_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
+                output_text(f"**Prediction:** {name}", style=f"color: {color};")
+                output_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
 
             if st.button('Predict with AWP'):
                 adversarial_image_3 = generate_adversarial_example(image, selected_model, 'awp', epsilon)
@@ -234,5 +234,5 @@ if uploaded_file is not None:
 
                 # Set the color based on correctness
                 color = "#39FF14" if is_correct else "red"
-                normal_text(f"**Prediction:** {name}", style=f"color: {color};")
-                normal_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")
+                output_text(f"**Prediction:** {name}", style=f"color: {color};")
+                output_text(f"**Confidence:** {confidence:.2f}%", style=f"color: {color};")

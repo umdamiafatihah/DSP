@@ -1,7 +1,14 @@
 import streamlit as st
 import re
 
-def normal_text(content: str, style=""):
+def normal_text(content: str, style="", color: str = "yellow"):
+    bold_pattern = re.compile(r"\*\*(.*?)\*\*")
+    # Replace bold markdown with HTML span that includes the yellow color styling
+    content = bold_pattern.sub(r"<span style='color: " + color + r"; font-weight: bold;'>\1</span>", content)
+    # Use markdown to display the content with the HTML styling
+    st.markdown(f"<div style='{style}'>{content}</div>", unsafe_allow_html=True)
+
+def output_text(content: str, style=""):
     bold_pattern = re.compile(r"\*\*(.*?)\*\*")
     content = bold_pattern.sub(r"<b>\1</b>", content)
     container = st.container()
